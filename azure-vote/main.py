@@ -26,11 +26,11 @@ from opencensus.ext.flask.flask_middleware import FlaskMiddleware
 config_integration.trace_integrations(['logging'])
 config_integration.trace_integrations(['requests'])
 logger = logging.getLogger(__name__)# TODO: Setup logger
-handler = AzureLogHandler(connection_string='InstrumentationKey=[a5829b16-f1db-49fa-8788-9ebec0c73442]')
+handler = AzureLogHandler(connection_string='InstrumentationKey=a5829b16-f1db-49fa-8788-9ebec0c73442;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
 handler.setFormatter(logging.Formatter('%(traceId)s %(spanId)s %(message)s'))
 logger.addHandler(handler)
 # Logging custom Events 
-logger.addHandler(AzureEventHandler(connection_string='InstrumentationKey=[a5829b16-f1db-49fa-8788-9ebec0c73442]'))
+logger.addHandler(AzureEventHandler(connection_string='InstrumentationKey=a5829b16-f1db-49fa-8788-9ebec0c73442;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/'))
 # Set the logging level
 logger.setLevel(logging.INFO)
 
@@ -39,13 +39,13 @@ stats = stats_module.stats
 view_manager = stats.view_manager
 exporter = metrics_exporter.new_metrics_exporter(
 enable_standard_metrics=True,
-connection_string='InstrumentationKey=[a5829b16-f1db-49fa-8788-9ebec0c73442]')
+connection_string='InstrumentationKey=a5829b16-f1db-49fa-8788-9ebec0c73442;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/')
 view_manager.register_exporter(exporter) # TODO: Setup exporter
 
 # Tracing
 tracer = tracer = Tracer(
  exporter=AzureExporter(
-     connection_string='InstrumentationKey=[a5829b16-f1db-49fa-8788-9ebec0c73442]'),
+     connection_string='InstrumentationKey=a5829b16-f1db-49fa-8788-9ebec0c73442;IngestionEndpoint=https://eastus-8.in.applicationinsights.azure.com/;LiveEndpoint=https://eastus.livediagnostics.monitor.azure.com/'),
  sampler=ProbabilitySampler(1.0),
 )# TODO: Setup tracer
 
